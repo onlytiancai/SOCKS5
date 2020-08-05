@@ -300,7 +300,9 @@ class Client
             $buffer = @fread($this->socket, $length - mb_strlen($result, 'ASCII'));
 
             // If the buffer actually contains something then add it to the result
-            if ($buffer !== false) {
+            // Note that fread() will return '' (empty string) when a timeout occurs unlike socket_read() which returns false...
+            // https://www.php.net/manual/zh/function.fread.php#115340
+            if ($buffer !== "") {
 
                 $result .= $buffer;
 
